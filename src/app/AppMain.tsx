@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { HomeScreen } from "./screens/HomeScreen";
 import { LearnScreen } from "./screens/LearnScreen";
+import { WordCardScreen } from "./screens/WordCardScreen";
 
 type TabRoute = 'home' | 'learn' | 'journey' | 'profile';
+type Screen = 'tab' | 'learn-center' | 'word-card';
 
 const tabs = [
   {
@@ -49,21 +51,43 @@ const tabs = [
 
 export default function AppMain() {
   const [activeTab, setActiveTab] = useState<TabRoute>('home');
+  const [currentScreen, setCurrentScreen] = useState<Screen>('tab');
 
   const renderScreen = () => {
+    // 学习流程（全屏，隐藏底部导航）
+    if (currentScreen === 'learn-center') {
+      return (
+        <LearnScreen
+          onBack={() => setCurrentScreen('tab')}
+          onStartWordCard={() => setCurrentScreen('word-card')}
+        />
+      );
+    }
+    if (currentScreen === 'word-card') {
+      return <WordCardScreen onBack={() => setCurrentScreen('learn-center')} />;
+    }
+
+    // 正常底部导航流程
     switch (activeTab) {
       case 'home':
-        return <HomeScreen onStartLearn={() => setActiveTab('learn')} />;
+        return <HomeScreen onStartLearn={() => setCurrentScreen('learn-center')} />;
       case 'learn':
-        return <LearnScreen onBack={() => setActiveTab('home')} />;
+        return (
+          <LearnScreen
+            onBack={() => setActiveTab('home')}
+            onStartWordCard={() => setCurrentScreen('word-card')}
+          />
+        );
       case 'journey':
         return <JourneyScreen />;
       case 'profile':
         return <ProfileScreen />;
       default:
-        return <HomeScreen onStartLearn={() => setActiveTab('learn')} />;
+        return <HomeScreen onStartLearn={() => setCurrentScreen('learn-center')} />;
     }
   };
+
+  const shouldShowTabBar = currentScreen === 'tab';
 
   return (
     <div className="size-full flex items-center justify-center bg-neutral-100 p-6">
@@ -88,35 +112,37 @@ export default function AppMain() {
           </div>
 
           {/* Bottom Tab Bar */}
-          <div className="border-t border-neutral-100 bg-white/95 backdrop-blur-md">
-            <div className="flex items-center justify-around px-2 pt-2 pb-6">
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
-                    className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${
-                      isActive ? 'bg-neutral-100' : ''
-                    }`}
-                  >
-                    <div className={`transition-opacity ${isActive ? 'opacity-100' : 'opacity-40'}`}>
-                      {tab.icon(isActive)}
-                    </div>
-                    <span
-                      className={`text-[10px] font-medium transition-colors ${
-                        isActive ? 'text-neutral-900' : 'text-neutral-400'
+          {shouldShowTabBar && (
+            <div className="border-t border-neutral-100 bg-white/95 backdrop-blur-md">
+              <div className="flex items-center justify-around px-2 pt-2 pb-6">
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${
+                        isActive ? 'bg-neutral-100' : ''
                       }`}
                     >
-                      {tab.label}
-                    </span>
-                  </button>
-                );
-              })}
+                      <div className={`transition-opacity ${isActive ? 'opacity-100' : 'opacity-40'}`}>
+                        {tab.icon(isActive)}
+                      </div>
+                      <span
+                        className={`text-[10px] font-medium transition-colors ${
+                          isActive ? 'text-neutral-900' : 'text-neutral-400'
+                        }`}
+                      >
+                        {tab.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              {/* Home indicator */}
+              <div className="w-32 h-1 bg-neutral-900 rounded-full mx-auto mb-2" />
             </div>
-            {/* Home indicator */}
-            <div className="w-32 h-1 bg-neutral-900 rounded-full mx-auto mb-2" />
-          </div>
+          )}
         </div>
       </div>
     </div>

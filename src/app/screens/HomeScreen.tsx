@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { PolaroidLandmark } from "../components/PolaroidLandmark";
+import bibiHappy from "../../imports/bibi_01_happy.png";
 
 type Theme = 'es' | 'fr' | 'de' | 'ja' | 'ko';
 
@@ -121,17 +122,14 @@ export function HomeScreen({ onStartLearn }: HomeScreenProps) {
             <div className="flex items-start gap-4">
               {/* 宠物头像 */}
               <div className="relative">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center shadow-md">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="1.5">
-                    <path d="M12 6v6l4 2" />
-                    <circle cx="12" cy="12" r="10" />
-                  </svg>
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center shadow-md overflow-hidden">
+                  <img src={bibiHappy} alt="Bibi" className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm" />
               </div>
 
               <div className="flex-1">
-                <p className="text-base font-semibold text-neutral-900 mb-1">小橘猫</p>
+                <p className="text-base font-semibold text-neutral-900 mb-1">比比</p>
                 <p className="text-xs text-neutral-600 mb-3">心情愉快</p>
 
                 {/* 经验值条 */}
