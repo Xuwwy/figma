@@ -104,7 +104,24 @@ const learningModes = [
 export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('es');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [expandedLanguage, setExpandedLanguage] = useState<Language | null>(null);
   const currentLang = languages.find(l => l.key === selectedLanguage) || languages[0];
+
+  const handleLanguageClick = (langKey: Language) => {
+    if (expandedLanguage === langKey) {
+      // 如果点击已展开的语言，则收起
+      setExpandedLanguage(null);
+    } else {
+      // 展开新语言
+      setExpandedLanguage(langKey);
+    }
+  };
+
+  const handleSelectLanguage = (langKey: Language) => {
+    setSelectedLanguage(langKey);
+    setExpandedLanguage(null);
+    setShowLanguageMenu(false);
+  };
 
   return (
     <div className="h-full flex flex-col overflow-hidden relative">
@@ -133,13 +150,7 @@ export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
         {/* Language Selection - 游记档案 (档案袋风格) */}
         <section>
-          <motion.div
-            className="relative"
-            animate={{
-              marginBottom: showLanguageMenu ? 280 : 0
-            }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
+          <motion.div className="relative">
             {/* 档案袋封面 */}
             <button
               onClick={() => setShowLanguageMenu(!showLanguageMenu)}
@@ -183,38 +194,75 @@ export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
               <div className="h-2 bg-gradient-to-b from-amber-200 to-amber-300 border-x-2 border-amber-300/50" />
             </button>
 
-            {/* 档案内容 */}
+            {/* 档案内容 - 文件缩略图 */}
             <AnimatePresence>
               {showLanguageMenu && (
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute top-full left-0 right-0 z-10 bg-white/80 backdrop-blur-xl rounded-b-2xl shadow-xl border-2 border-t-0 border-amber-300/50 p-4 pb-6"
+                  className="overflow-hidden"
                 >
-                  {/* 横向滚动容器 */}
-                  <div className="overflow-x-auto -mx-2 px-2">
-                    <div className="flex gap-4 pb-2" style={{ minWidth: 'max-content' }}>
+                  <div className="bg-gradient-to-b from-amber-50 to-white/90 backdrop-blur-xl rounded-b-2xl shadow-xl border-2 border-t-0 border-amber-300/50 p-4">
+                    {/* 文件标签行 */}
+                    <div className="flex gap-2 mb-3 overflow-x-auto pb-2">
                       {languages.map((lang, index) => (
                         <motion.button
                           key={lang.key}
-                          onClick={() => {
-                            setSelectedLanguage(lang.key);
-                            setShowLanguageMenu(false);
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLanguageClick(lang.key);
                           }}
-                          className={`flex-shrink-0 ${selectedLanguage === lang.key ? 'ring-2 ring-neutral-900 ring-offset-2 rounded-lg' : ''}`}
-                          whileTap={{ scale: 0.95 }}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
+                          className={`flex-shrink-0 px-4 py-2 rounded-t-lg border-2 transition-all ${
+                            expandedLanguage === lang.key
+                              ? 'bg-white border-amber-300 shadow-md'
+                              : 'bg-amber-100/50 border-amber-200/50 hover:bg-amber-100'
+                          }`}
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.05 }}
                         >
-                          <div className="transform scale-90">
-                            <PolaroidLandmark theme={lang.key} />
-                          </div>
+                          <div className="text-xs font-semibold text-amber-900">{lang.label}</div>
+                          <div className="text-[10px] text-amber-700">{lang.city}</div>
                         </motion.button>
                       ))}
                     </div>
+
+                    {/* 展开的宝丽来照片 */}
+                    <AnimatePresence mode="wait">
+                      {expandedLanguage && (
+                        <motion.div
+                          key={expandedLanguage}
+                          initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                          transition={{ duration: 0.3 }}
+                          className="bg-white rounded-lg p-4 shadow-lg border border-amber-200/50"
+                        >
+                          <div className="flex flex-col items-center">
+                            <div className="transform scale-90 mb-3">
+                              <PolaroidLandmark theme={expandedLanguage} />
+                            </div>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSelectLanguage(expandedLanguage);
+                              }}
+                              className="px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
+                            >
+                              选择此语言
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {!expandedLanguage && (
+                      <div className="text-center py-4 text-sm text-amber-700/70">
+                        点击语言标签查看详情
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
