@@ -94,11 +94,11 @@ const learningModes = [
   { id: 'new-words', name: '新词学习', desc: '学习新词', icon: 'newWords', premium: false, color: 'from-green-500 to-emerald-500' },
   { id: 'review', name: '今日复习', desc: '复习巩固', icon: 'review', premium: false, color: 'from-orange-500 to-red-500' },
   { id: 'mixed', name: '混合学习', desc: '综合训练', icon: 'mixed', premium: false, color: 'from-pink-500 to-rose-500' },
-  { id: 'mistakes', name: '错词强化', desc: 'VIP专属', icon: 'mistakes', premium: true, color: 'from-amber-500 to-yellow-500' },
-  { id: 'favorites', name: '收藏词复习', desc: 'VIP专属', icon: 'favorites', premium: true, color: 'from-amber-500 to-orange-500' },
-  { id: 'verbs', name: '动词专项', desc: 'VIP专属', icon: 'verbs', premium: true, color: 'from-yellow-500 to-amber-500' },
-  { id: 'phrases', name: '短语专项', desc: 'VIP专属', icon: 'phrases', premium: true, color: 'from-orange-500 to-amber-500' },
-  { id: 'exam', name: '考试专项', desc: 'VIP专属', icon: 'exam', premium: true, color: 'from-amber-600 to-yellow-600' },
+  { id: 'mistakes', name: '错词强化', desc: '强化训练', icon: 'mistakes', premium: true, color: 'from-amber-500 to-yellow-500' },
+  { id: 'favorites', name: '收藏复习', desc: '巩固收藏', icon: 'favorites', premium: true, color: 'from-amber-500 to-orange-500' },
+  { id: 'verbs', name: '动词专项', desc: '动词变位', icon: 'verbs', premium: true, color: 'from-yellow-500 to-amber-500' },
+  { id: 'phrases', name: '短语专项', desc: '常用短语', icon: 'phrases', premium: true, color: 'from-orange-500 to-amber-500' },
+  { id: 'exam', name: '考试专项', desc: '考试模拟', icon: 'exam', premium: true, color: 'from-amber-600 to-yellow-600' },
 ];
 
 export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
@@ -298,17 +298,17 @@ export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
                   <div className={`absolute inset-0 bg-gradient-to-br ${mode.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
 
                   {mode.premium && (
-                    <div className="absolute top-2 right-2 px-2 py-0.5 bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-semibold rounded-full shadow-sm">
+                    <div className="absolute -top-1.5 -right-1.5 px-2 py-0.5 bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-semibold rounded-full shadow-md">
                       VIP
                     </div>
                   )}
                   <div className="flex items-start gap-3 relative">
-                    <div className={`p-2 rounded-xl bg-gradient-to-br ${mode.color} shadow-md`}>
+                    <div className={`p-2 rounded-xl bg-gradient-to-br ${mode.color} shadow-md flex-shrink-0`}>
                       <div className="text-white">
                         <IconComponent />
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 pr-6">
                       <div className="font-semibold text-neutral-900 mb-0.5">{mode.name}</div>
                       <div className="text-xs text-neutral-600">{mode.desc}</div>
                     </div>

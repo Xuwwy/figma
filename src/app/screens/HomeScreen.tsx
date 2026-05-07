@@ -22,7 +22,7 @@ export function HomeScreen({ onStartLearn }: HomeScreenProps) {
   const theme = themes[currentTheme];
 
   return (
-    <div className="flex-1 overflow-auto relative">
+    <div className="h-full overflow-y-auto relative">
       {/* 渐变背景 */}
       <div
         className="fixed inset-0 -z-10"

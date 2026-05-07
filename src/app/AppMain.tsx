@@ -3,7 +3,7 @@ import { HomeScreen } from "./screens/HomeScreen";
 import { LearnScreen } from "./screens/LearnScreen";
 import { WordCardScreen } from "./screens/WordCardScreen";
 
-type TabRoute = 'home' | 'learn' | 'journey' | 'profile';
+type TabRoute = 'home' | 'learn' | 'stats' | 'profile';
 type Screen = 'tab' | 'learn-center' | 'word-card';
 
 const tabs = [
@@ -28,12 +28,12 @@ const tabs = [
     )
   },
   {
-    key: 'journey' as TabRoute,
-    label: '旅程',
+    key: 'stats' as TabRoute,
+    label: '统计',
     icon: (active: boolean) => (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="10" r="3" />
-        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z" />
+        <path d="M3 3v18h18" />
+        <path d="M18 17V9M13 17V5M8 17v-3" />
       </svg>
     )
   },
@@ -78,8 +78,8 @@ export default function AppMain() {
             onStartWordCard={() => setCurrentScreen('word-card')}
           />
         );
-      case 'journey':
-        return <JourneyScreen />;
+      case 'stats':
+        return <StatsScreen />;
       case 'profile':
         return <ProfileScreen />;
       default:
@@ -150,15 +150,15 @@ export default function AppMain() {
 }
 
 // 占位屏幕组件
-function JourneyScreen() {
+function StatsScreen() {
   return (
-    <div className="h-full bg-gradient-to-b from-green-50 to-white p-6 flex flex-col items-center justify-center">
-      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-green-600 mb-4">
-        <circle cx="12" cy="10" r="3" />
-        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 6.9 8 11.7z" />
+    <div className="h-full bg-gradient-to-b from-blue-50 to-white p-6 flex flex-col items-center justify-center">
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-blue-600 mb-4">
+        <path d="M3 3v18h18" />
+        <path d="M18 17V9M13 17V5M8 17v-3" />
       </svg>
-      <h2 className="text-2xl font-semibold mb-2 text-neutral-900">旅程地图</h2>
-      <p className="text-neutral-500 text-sm">探索世界，收集明信片</p>
+      <h2 className="text-2xl font-semibold mb-2 text-neutral-900">学习统计</h2>
+      <p className="text-neutral-500 text-sm">查看学习数据和进度</p>
     </div>
   );
 }
