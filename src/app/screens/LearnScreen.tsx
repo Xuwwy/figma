@@ -24,17 +24,81 @@ const books = [
   { id: 3, name: '商务西语进阶', words: 800, progress: 0, color: 'from-orange-500 to-orange-600' },
 ];
 
+// 学习模式图标组件
+const ModeIcons = {
+  spelling: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 19l7-7 3 3-7 7-3-3z" />
+      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+      <path d="M2 2l7.586 7.586" />
+      <circle cx="11" cy="11" r="2" />
+    </svg>
+  ),
+  listening: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M3 18v-6a9 9 0 0118 0v6" />
+      <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z" />
+    </svg>
+  ),
+  newWords: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+      <path d="M12 6v6m-3-3h6" />
+    </svg>
+  ),
+  review: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2" />
+    </svg>
+  ),
+  mixed: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 2v20M2 12h20" />
+      <path d="M6 6l12 12M6 18L18 6" />
+    </svg>
+  ),
+  mistakes: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  ),
+  favorites: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  ),
+  verbs: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M7 3v18M17 3v18M3 12h4m10 0h4M3 7h4m10 0h4M3 17h4m10 0h4" />
+    </svg>
+  ),
+  phrases: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+      <path d="M8 9h8M8 13h6" />
+    </svg>
+  ),
+  exam: () => (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+    </svg>
+  ),
+};
+
 const learningModes = [
-  { id: 'spelling', name: '拼写练习', desc: '拼写单词', icon: '✍️', premium: false, gradient: 'from-blue-50 to-blue-100/50' },
-  { id: 'listening', name: '听音辩词', desc: '听力训练', icon: '👂', premium: false, gradient: 'from-purple-50 to-purple-100/50' },
-  { id: 'new-words', name: '新词学习', desc: '学习新词', icon: '📖', premium: false, gradient: 'from-green-50 to-green-100/50' },
-  { id: 'review', name: '今日复习', desc: '复习巩固', icon: '🔄', premium: false, gradient: 'from-orange-50 to-orange-100/50' },
-  { id: 'mixed', name: '混合学习', desc: '综合训练', icon: '🎯', premium: false, gradient: 'from-pink-50 to-pink-100/50' },
-  { id: 'mistakes', name: '错词强化', desc: 'VIP专属', icon: '⚡', premium: true, gradient: 'from-amber-50 to-amber-100' },
-  { id: 'favorites', name: '收藏词复习', desc: 'VIP专属', icon: '⭐', premium: true, gradient: 'from-amber-50 to-amber-100' },
-  { id: 'verbs', name: '动词专项', desc: 'VIP专属', icon: '🎬', premium: true, gradient: 'from-amber-50 to-amber-100' },
-  { id: 'phrases', name: '短语专项', desc: 'VIP专属', icon: '💬', premium: true, gradient: 'from-amber-50 to-amber-100' },
-  { id: 'exam', name: '考试专项', desc: 'VIP专属', icon: '🎓', premium: true, gradient: 'from-amber-50 to-amber-100' },
+  { id: 'spelling', name: '拼写练习', desc: '单词拼写', icon: 'spelling', premium: false, color: 'from-blue-500 to-cyan-500' },
+  { id: 'listening', name: '听音辩词', desc: '听力训练', icon: 'listening', premium: false, color: 'from-purple-500 to-pink-500' },
+  { id: 'new-words', name: '新词学习', desc: '学习新词', icon: 'newWords', premium: false, color: 'from-green-500 to-emerald-500' },
+  { id: 'review', name: '今日复习', desc: '复习巩固', icon: 'review', premium: false, color: 'from-orange-500 to-red-500' },
+  { id: 'mixed', name: '混合学习', desc: '综合训练', icon: 'mixed', premium: false, color: 'from-pink-500 to-rose-500' },
+  { id: 'mistakes', name: '错词强化', desc: 'VIP专属', icon: 'mistakes', premium: true, color: 'from-amber-500 to-yellow-500' },
+  { id: 'favorites', name: '收藏词复习', desc: 'VIP专属', icon: 'favorites', premium: true, color: 'from-amber-500 to-orange-500' },
+  { id: 'verbs', name: '动词专项', desc: 'VIP专属', icon: 'verbs', premium: true, color: 'from-yellow-500 to-amber-500' },
+  { id: 'phrases', name: '短语专项', desc: 'VIP专属', icon: 'phrases', premium: true, color: 'from-orange-500 to-amber-500' },
+  { id: 'exam', name: '考试专项', desc: 'VIP专属', icon: 'exam', premium: true, color: 'from-amber-600 to-yellow-600' },
 ];
 
 export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
@@ -67,66 +131,95 @@ export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
-        {/* Language Selection - 游记档案 (二级菜单) */}
+        {/* Language Selection - 游记档案 (档案袋风格) */}
         <section>
-          <button
-            onClick={() => setShowLanguageMenu(!showLanguageMenu)}
-            className="w-full flex items-center justify-between p-4 bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg border border-white/60 hover:bg-white/80 transition-all"
+          <motion.div
+            className="relative"
+            animate={{
+              marginBottom: showLanguageMenu ? 280 : 0
+            }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <div className="flex items-center gap-3">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${currentLang.gradient} flex items-center justify-center shadow-md`}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-              </div>
-              <div className="text-left">
-                <h2 className="text-sm font-semibold text-neutral-700 uppercase tracking-wider">游记档案</h2>
-                <p className="text-xs text-neutral-500 mt-0.5">{currentLang.label} · {currentLang.city}</p>
-              </div>
-            </div>
-            <motion.div
-              animate={{ rotate: showLanguageMenu ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
+            {/* 档案袋封面 */}
+            <button
+              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              className="w-full relative"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </motion.div>
-          </button>
-
-          <AnimatePresence>
-            {showLanguageMenu && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="mt-4 grid grid-cols-2 gap-4">
-                  {languages.map((lang) => (
-                    <motion.button
-                      key={lang.key}
-                      onClick={() => {
-                        setSelectedLanguage(lang.key);
-                        setShowLanguageMenu(false);
-                      }}
-                      className={`relative ${selectedLanguage === lang.key ? 'ring-2 ring-neutral-900 ring-offset-2' : ''}`}
-                      whileTap={{ scale: 0.95 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: languages.indexOf(lang) * 0.05 }}
-                    >
-                      <div className="transform scale-75 origin-top">
-                        <PolaroidLandmark theme={lang.key} />
-                      </div>
-                    </motion.button>
-                  ))}
+              {/* 档案袋主体 */}
+              <div className="relative bg-gradient-to-br from-amber-100 to-amber-200 rounded-t-2xl shadow-lg border-2 border-amber-300/50 p-5 pb-8">
+                {/* 档案袋标签 */}
+                <div className="absolute -top-3 left-6 bg-amber-200 px-4 py-1 rounded-t-lg border-2 border-amber-300/50 shadow-sm">
+                  <span className="text-xs font-semibold text-amber-900 uppercase tracking-wider">Travel Archives</span>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${currentLang.gradient} flex items-center justify-center shadow-md border-2 border-white/60`}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                    </div>
+                    <div className="text-left">
+                      <h2 className="text-sm font-bold text-amber-900 uppercase tracking-wider">游记档案</h2>
+                      <p className="text-xs text-amber-700 mt-0.5">{currentLang.label} · {currentLang.city}</p>
+                    </div>
+                  </div>
+                  <motion.div
+                    animate={{ rotate: showLanguageMenu ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </motion.div>
+                </div>
+
+                {/* 档案袋底部装饰线 */}
+                <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-b from-transparent to-amber-300/30" />
+              </div>
+
+              {/* 档案袋底边 */}
+              <div className="h-2 bg-gradient-to-b from-amber-200 to-amber-300 border-x-2 border-amber-300/50" />
+            </button>
+
+            {/* 档案内容 */}
+            <AnimatePresence>
+              {showLanguageMenu && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-full left-0 right-0 z-10 bg-white/80 backdrop-blur-xl rounded-b-2xl shadow-xl border-2 border-t-0 border-amber-300/50 p-4 pb-6"
+                >
+                  {/* 横向滚动容器 */}
+                  <div className="overflow-x-auto -mx-2 px-2">
+                    <div className="flex gap-4 pb-2" style={{ minWidth: 'max-content' }}>
+                      {languages.map((lang, index) => (
+                        <motion.button
+                          key={lang.key}
+                          onClick={() => {
+                            setSelectedLanguage(lang.key);
+                            setShowLanguageMenu(false);
+                          }}
+                          className={`flex-shrink-0 ${selectedLanguage === lang.key ? 'ring-2 ring-neutral-900 ring-offset-2 rounded-lg' : ''}`}
+                          whileTap={{ scale: 0.95 }}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                        >
+                          <div className="transform scale-90">
+                            <PolaroidLandmark theme={lang.key} />
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </section>
 
         {/* Book Shelf - 词书书架 */}
@@ -187,32 +280,42 @@ export function LearnScreen({ onBack, onStartWordCard }: LearnScreenProps) {
             <h2 className="text-sm font-semibold text-neutral-700 uppercase tracking-wider">学习模式</h2>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            {learningModes.map((mode, index) => (
-              <motion.button
-                key={mode.id}
-                onClick={() => mode.id === 'new-words' && onStartWordCard?.()}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                className={`p-4 rounded-2xl transition-all text-left relative overflow-hidden shadow-md hover:shadow-lg bg-gradient-to-br ${mode.gradient} border ${
-                  mode.premium ? 'border-amber-300/50' : 'border-white/60'
-                }`}
-                whileTap={{ scale: 0.95 }}
-              >
-                {mode.premium && (
-                  <div className="absolute top-2 right-2 px-2 py-0.5 bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-semibold rounded-full shadow-sm">
-                    VIP
+            {learningModes.map((mode, index) => {
+              const IconComponent = ModeIcons[mode.icon as keyof typeof ModeIcons];
+              return (
+                <motion.button
+                  key={mode.id}
+                  onClick={() => mode.id === 'new-words' && onStartWordCard?.()}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={`p-4 rounded-2xl transition-all text-left relative overflow-hidden shadow-md hover:shadow-xl bg-white/70 backdrop-blur-xl border ${
+                    mode.premium ? 'border-amber-300/60' : 'border-white/60'
+                  } group`}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {/* 背景渐变 */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${mode.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
+
+                  {mode.premium && (
+                    <div className="absolute top-2 right-2 px-2 py-0.5 bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-semibold rounded-full shadow-sm">
+                      VIP
+                    </div>
+                  )}
+                  <div className="flex items-start gap-3 relative">
+                    <div className={`p-2 rounded-xl bg-gradient-to-br ${mode.color} shadow-md`}>
+                      <div className="text-white">
+                        <IconComponent />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-neutral-900 mb-0.5">{mode.name}</div>
+                      <div className="text-xs text-neutral-600">{mode.desc}</div>
+                    </div>
                   </div>
-                )}
-                <div className="flex items-start gap-3">
-                  <div className="text-3xl">{mode.icon}</div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-neutral-900 mb-0.5">{mode.name}</div>
-                    <div className="text-xs text-neutral-600">{mode.desc}</div>
-                  </div>
-                </div>
-              </motion.button>
-            ))}
+                </motion.button>
+              );
+            })}
           </div>
         </section>
 
